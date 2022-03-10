@@ -9,14 +9,15 @@ private:
    struct TreeNode
    {
       SElement title;
-      int value;         
+      int likes;         
       int views;
       TreeNode *left;    // Pointer to left child node
       TreeNode *right;   // Pointer to right child node
    };
 
    TreeNode *root;       // Pointer to the root node
-   
+   int likeTotal = 0;
+   int viewTotal = 0;
    // Private member functions
    void insert(TreeNode *&, TreeNode *&);
    void destroySubTree(TreeNode *);
@@ -25,21 +26,30 @@ private:
    void displayInOrder(TreeNode *) const;
    void displayPreOrder(TreeNode *) const;
    void displayPostOrder(TreeNode *) const;
+   void displayRoot(TreeNode *);
+   void displayTotal(TreeNode *);
    
 public:
    // Constructor
-   IntBinaryTree()
+   BST()
       { root = nullptr; }
       
    // Destructor
-   ~IntBinaryTree()
+   ~BST()
       { destroySubTree(root); }
       
    // Binary tree operations
-   void insertNode(int);
+   void insertNode(SElement, int, int);
    bool searchNode(int);
    void remove(int);
-   
+   void displayRoot()
+      { displayRoot(root);}
+
+   void displayTotal(int *l, int *v)
+      { displayTotal(root);
+        *l = likeTotal;
+        *v = viewTotal;}
+
    void displayInOrder() const
       {  displayInOrder(root); }
       

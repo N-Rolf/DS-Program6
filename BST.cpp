@@ -1,6 +1,6 @@
 // Implementation file for the IntBinaryTree class
 #include <iostream>
-#include "IntBinaryTree.h"
+#include "BST.h"
 using namespace std;
 
 //*************************************************************
@@ -9,11 +9,11 @@ using namespace std;
 // the TreeNode pointer. This function is called recursively. *
 //*************************************************************
 
-void IntBinaryTree::insert(TreeNode *&nodePtr, TreeNode *&newNode)
+void BST::insert(TreeNode *&nodePtr, TreeNode *&newNode)
 {
    if (nodePtr == nullptr)
       nodePtr = newNode;                  // Insert the node.
-   else if (newNode->value < nodePtr->value)
+   else if (newNode->title < nodePtr->title)
       insert(nodePtr->left, newNode);     // Search the left branch
    else 
       insert(nodePtr->right, newNode);    // Search the right branch
@@ -24,13 +24,15 @@ void IntBinaryTree::insert(TreeNode *&nodePtr, TreeNode *&newNode)
 // and passes it to the insert function.                   *
 //**********************************************************
 
-void IntBinaryTree::insertNode(int num)
+void BST::insertNode(string t, int l, int v)
 {
    TreeNode *newNode = nullptr;	// Pointer to a new node.
 
    // Create a new node and store num in it.
    newNode = new TreeNode;
-   newNode->value = num;
+   newNode->title = t;
+   newNode->likes = l;
+   newNode->views = v;
    newNode->left = newNode->right = nullptr;
    
    // Insert the node.
@@ -42,7 +44,7 @@ void IntBinaryTree::insertNode(int num)
 // deletes all nodes in the tree.                   *
 //***************************************************
 
-void IntBinaryTree::destroySubTree(TreeNode *nodePtr)
+void BST::destroySubTree(TreeNode *nodePtr)
 {
    if (nodePtr)
    {
@@ -60,15 +62,15 @@ void IntBinaryTree::destroySubTree(TreeNode *nodePtr)
 // Otherwise, it returns false.                     *
 //***************************************************
 
-bool IntBinaryTree::searchNode(int num)
+bool BST::searchNode(int num)
 {
    TreeNode *nodePtr = root;
 
    while (nodePtr)
    {
-      if (nodePtr->value == num)
+      if (nodePtr->likes == num)
          return true;
-      else if (num < nodePtr->value)
+      else if (num < nodePtr->likes)
          nodePtr = nodePtr->left;
       else
          nodePtr = nodePtr->right;
@@ -81,7 +83,7 @@ bool IntBinaryTree::searchNode(int num)
 // node whose value member is the same as num. *
 //**********************************************
 
-void IntBinaryTree::remove(int num)
+void BST::remove(int num)
 {
    deleteNode(num, root);
 }
@@ -92,11 +94,11 @@ void IntBinaryTree::remove(int num)
 // member is the same as num.                *
 //********************************************
 
-void IntBinaryTree::deleteNode(int num, TreeNode *&nodePtr)
+void BST::deleteNode(int num, TreeNode *&nodePtr)
 {
-   if (num < nodePtr->value)
+   if (num < nodePtr->likes)
       deleteNode(num, nodePtr->left);
-   else if (num > nodePtr->value)
+   else if (num > nodePtr->likes)
       deleteNode(num, nodePtr->right);
    else
       makeDeletion(nodePtr);
@@ -109,7 +111,7 @@ void IntBinaryTree::deleteNode(int num, TreeNode *&nodePtr)
 // branches of the tree below the node are reattached.      *
 //***********************************************************
 
-void IntBinaryTree::makeDeletion(TreeNode *&nodePtr)
+void BST::makeDeletion(TreeNode *&nodePtr)
 {
    // Define a temporary pointer to use in reattaching
    // the left subtree.
@@ -148,16 +150,45 @@ void IntBinaryTree::makeDeletion(TreeNode *&nodePtr)
 
 //****************************************************************
 // The displayInOrder member function displays the values        *
-// in the subtree pointed to by nodePtr, via inorder traversal.  *
+// in the subtree pointed to by nodePtr, via in order traversal.  *
 //****************************************************************
 
-void IntBinaryTree::displayInOrder(TreeNode *nodePtr) const
+void BST::displayInOrder(TreeNode *nodePtr) const
 {
    if (nodePtr)
    {
       displayInOrder(nodePtr->left);
-      cout << nodePtr->value << endl;
+      cout << nodePtr->title << " ";
+      cout << nodePtr->likes << " ";
+      cout << nodePtr->views << " \n";
       displayInOrder(nodePtr->right);
+   }
+}
+
+//****************************************************************
+// The displayRoot member function displays the values           *
+// in the root node                                              *
+//****************************************************************
+
+void BST::displayRoot(TreeNode *root)
+{
+   if(root)
+      cout << root->title << root->likes << root->views << endl;
+}
+
+//****************************************************************
+// The displayTotal member function displays the summed values   *
+// of likes and views data                                       *
+//****************************************************************
+
+void BST::displayTotal(TreeNode *nodePtr)
+{
+   if(nodePtr)
+   {
+      displayTotal(nodePtr->left);
+      likeTotal += nodePtr->likes;
+      viewTotal += nodePtr->views;
+      displayTotal(nodePtr->right);
    }
 }
 
@@ -166,11 +197,11 @@ void IntBinaryTree::displayInOrder(TreeNode *nodePtr) const
 // in the subtree pointed to by nodePtr, via preorder traversal. *
 //****************************************************************
 
-void IntBinaryTree::displayPreOrder(TreeNode *nodePtr) const
+void BST::displayPreOrder(TreeNode *nodePtr) const
 {
    if (nodePtr)
    {
-      cout << nodePtr->value << endl;
+      cout << nodePtr->likes << endl;
       displayPreOrder(nodePtr->left);     
       displayPreOrder(nodePtr->right);
    }
@@ -181,12 +212,12 @@ void IntBinaryTree::displayPreOrder(TreeNode *nodePtr) const
 // in the subtree pointed to by nodePtr, via postorder traversal.*
 //****************************************************************
 
-void IntBinaryTree::displayPostOrder(TreeNode *nodePtr) const
+void BST::displayPostOrder(TreeNode *nodePtr) const
 {
    if (nodePtr)
    {
       displayPostOrder(nodePtr->left);    
       displayPostOrder(nodePtr->right);
-      cout << nodePtr->value << endl;
+      cout << nodePtr->likes << endl;
    }
 }
