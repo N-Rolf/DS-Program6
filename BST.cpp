@@ -1,5 +1,6 @@
 // Implementation file for the IntBinaryTree class
 #include <iostream>
+#include <iomanip>
 #include "BST.h"
 using namespace std;
 
@@ -62,31 +63,31 @@ void BST::destroySubTree(TreeNode *nodePtr)
 // Otherwise, it returns false.                     *
 //***************************************************
 
-bool BST::searchNode(int num)
-{
-   TreeNode *nodePtr = root;
+// bool BST::searchNode(int num)
+// {
+//    TreeNode *nodePtr = root;
 
-   while (nodePtr)
-   {
-      if (nodePtr->likes == num)
-         return true;
-      else if (num < nodePtr->likes)
-         nodePtr = nodePtr->left;
-      else
-         nodePtr = nodePtr->right;
-   }
-   return false;
-}
+//    while (nodePtr)
+//    {
+//       if (nodePtr->likes == num)
+//          return true;
+//       else if (num < nodePtr->likes)
+//          nodePtr = nodePtr->left;
+//       else
+//          nodePtr = nodePtr->right;
+//    }
+//    return false;
+// }
 
 //**********************************************
 // remove calls deleteNode to delete the       *
 // node whose value member is the same as num. *
 //**********************************************
 
-void BST::remove(int num)
-{
-   deleteNode(num, root);
-}
+// void BST::remove(int num)
+// {
+//    deleteNode(num, root);
+// }
 
 
 //********************************************
@@ -94,15 +95,15 @@ void BST::remove(int num)
 // member is the same as num.                *
 //********************************************
 
-void BST::deleteNode(int num, TreeNode *&nodePtr)
-{
-   if (num < nodePtr->likes)
-      deleteNode(num, nodePtr->left);
-   else if (num > nodePtr->likes)
-      deleteNode(num, nodePtr->right);
-   else
-      makeDeletion(nodePtr);
-}
+// void BST::deleteNode(int num, TreeNode *&nodePtr)
+// {
+//    if (num < nodePtr->likes)
+//       deleteNode(num, nodePtr->left);
+//    else if (num > nodePtr->likes)
+//       deleteNode(num, nodePtr->right);
+//    else
+//       makeDeletion(nodePtr);
+// }
 
 
 //***********************************************************
@@ -111,42 +112,42 @@ void BST::deleteNode(int num, TreeNode *&nodePtr)
 // branches of the tree below the node are reattached.      *
 //***********************************************************
 
-void BST::makeDeletion(TreeNode *&nodePtr)
-{
-   // Define a temporary pointer to use in reattaching
-   // the left subtree.
-   TreeNode *tempNodePtr = nullptr;
+// void BST::makeDeletion(TreeNode *&nodePtr)
+// {
+//    // Define a temporary pointer to use in reattaching
+//    // the left subtree.
+//    TreeNode *tempNodePtr = nullptr;
 
-   if (nodePtr == nullptr)
-      cout << "Cannot delete empty node.\n";
-   else if (nodePtr->right == nullptr)
-   {
-      tempNodePtr = nodePtr;
-      nodePtr = nodePtr->left;   // Reattach the left child
-      delete tempNodePtr;
-   }
-   else if (nodePtr->left == nullptr)
-   {
-      tempNodePtr = nodePtr;
-      nodePtr = nodePtr->right;  // Reattach the right child
-      delete tempNodePtr;
-   }
-   // If the node has two children.
-   else
-   {
-      // Move one node the right.
-      tempNodePtr = nodePtr->right;
-      // Go to the end left node.
-      while (tempNodePtr->left != nullptr)
-         tempNodePtr = tempNodePtr->left;
-      // Reattach the left subtree.
-      tempNodePtr->left = nodePtr->left;
-      tempNodePtr = nodePtr;
-      // Reattach the right subtree.
-      nodePtr = nodePtr->right;
-      delete tempNodePtr;
-   }
-}
+//    if (nodePtr == nullptr)
+//       cout << "Cannot delete empty node.\n";
+//    else if (nodePtr->right == nullptr)
+//    {
+//       tempNodePtr = nodePtr;
+//       nodePtr = nodePtr->left;   // Reattach the left child
+//       delete tempNodePtr;
+//    }
+//    else if (nodePtr->left == nullptr)
+//    {
+//       tempNodePtr = nodePtr;
+//       nodePtr = nodePtr->right;  // Reattach the right child
+//       delete tempNodePtr;
+//    }
+//    // If the node has two children.
+//    else
+//    {
+//       // Move one node the right.
+//       tempNodePtr = nodePtr->right;
+//       // Go to the end left node.
+//       while (tempNodePtr->left != nullptr)
+//          tempNodePtr = tempNodePtr->left;
+//       // Reattach the left subtree.
+//       tempNodePtr->left = nodePtr->left;
+//       tempNodePtr = nodePtr;
+//       // Reattach the right subtree.
+//       nodePtr = nodePtr->right;
+//       delete tempNodePtr;
+//    }
+// }
 
 //****************************************************************
 // The displayInOrder member function displays the values        *
@@ -158,9 +159,9 @@ void BST::displayInOrder(TreeNode *nodePtr) const
    if (nodePtr)
    {
       displayInOrder(nodePtr->left);
-      cout << nodePtr->title << " ";
-      cout << nodePtr->likes << " ";
-      cout << nodePtr->views << " \n";
+      cout << setw(45) << std::left << nodePtr->title;
+      cout << setw(12) << std::left << nodePtr->likes;
+      cout << setw(12) << std::left << nodePtr->views << endl;
       displayInOrder(nodePtr->right);
    }
 }
@@ -197,27 +198,27 @@ void BST::displayTotal(TreeNode *nodePtr)
 // in the subtree pointed to by nodePtr, via preorder traversal. *
 //****************************************************************
 
-void BST::displayPreOrder(TreeNode *nodePtr) const
-{
-   if (nodePtr)
-   {
-      cout << nodePtr->likes << endl;
-      displayPreOrder(nodePtr->left);     
-      displayPreOrder(nodePtr->right);
-   }
-}
+// void BST::displayPreOrder(TreeNode *nodePtr) const
+// {
+//    if (nodePtr)
+//    {
+//       cout << nodePtr->likes << endl;
+//       displayPreOrder(nodePtr->left);     
+//       displayPreOrder(nodePtr->right);
+//    }
+// }
 
 //****************************************************************
 // The displayPostOrder member function displays the values      *
 // in the subtree pointed to by nodePtr, via postorder traversal.*
 //****************************************************************
 
-void BST::displayPostOrder(TreeNode *nodePtr) const
-{
-   if (nodePtr)
-   {
-      displayPostOrder(nodePtr->left);    
-      displayPostOrder(nodePtr->right);
-      cout << nodePtr->likes << endl;
-   }
-}
+// void BST::displayPostOrder(TreeNode *nodePtr) const
+// {
+//    if (nodePtr)
+//    {
+//       displayPostOrder(nodePtr->left);    
+//       displayPostOrder(nodePtr->right);
+//       cout << nodePtr->likes << endl;
+//    }
+// }

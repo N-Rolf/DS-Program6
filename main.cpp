@@ -29,42 +29,47 @@ BST tree;
 
 int main()
 {
-   int catchLikes = 0, catchViews = 0;
-   int *likePtr = &catchLikes;
-   int *viewPtr = &catchViews;
-//initial data ingest and user file name prompt
-   int itemCount = ingestData();
-   tree.displayTotal(likePtr, viewPtr);
-   cout << catchLikes << " " << catchViews << endl;
+    int catchLikes = 0, catchViews = 0;
+    int *likePtr = &catchLikes;
+    int *viewPtr = &catchViews;
+    //initial data ingest and user file name prompt
+    int itemCount = ingestData();
    
-   //USER MENU
-   //  int selection = 0;
-   //  do{
-   //      cout << "\nChoose an Option...\n";
-   //      cout << "1: Print previous items.\n";
-   //      cout << "2: Display total purchases value. \n";
-   //      cout << "3: Exit. \n";
-   //      cin.clear();
-   //      cin >> selection;
-   //      switch(selection){
-   //          case PRINT_ROOT_TITLE:{
-   //             //tree.displayRoot();
-   //              break;
-   //              }
-   //          case PRINT_ALL:{
-   //             //tree.displayTotal();
-   //              break;
-   //              }
-   //          case PRINT_TOTAL:{
-   //             //print total number of likes and views
-   //             break;
-   //          }
-   //          case EXIT:{
-   //              cout << "\nExiting...\n";
-   //              break;
-   //              }
-   //      }
-   //  }while(selection != 4);
+    //USER MENU
+    int selection = 0;
+    do{
+        cout << "\nChoose an Option...\n";
+        cout << "1: Print the Title field of the root node.\n";
+        cout << "2: Display the information for all Videos. (alphabetically) \n";
+        cout << "3: Display the total number of likes and views. \n";
+        cout << "4: Exit. \n";
+        cin.clear();
+        cin >> selection;
+        switch(selection){
+            case PRINT_ROOT_TITLE:{
+               tree.displayRoot();
+                break;
+                }
+            case PRINT_ALL:{
+                cout << setw(46) << std::left << "\nTitle"; 
+                cout << setw(12) << std::left << "Likes";
+                cout << setw(12) << std::left << "Views" << endl;
+                cout << string(69, '-') << endl;
+                tree.displayInOrder();
+                break;
+                }
+            case PRINT_TOTAL:{
+               tree.displayTotal(likePtr, viewPtr);
+               cout << "\nTotal Likes: " << catchLikes << endl; //27349
+               cout << "Total Views: " << catchViews << endl; //9773
+               break;
+            }
+            case EXIT:{
+                cout << "\nExiting...\n";
+                break;
+                }
+        }
+    }while(selection != 4);
    
    return 0;
 }
@@ -94,19 +99,20 @@ int ingestData()
     Node tempNode;
     int count = 0;
 
-    while(infile)
+    while(infile >> tempNode.likes)
     {
-      infile >> tempNode.likes;
+      //infile >> tempNode.likes;
       infile >> tempNode.views;
+      infile.ignore();
       getline(infile, tempNode.title);
 
       //cout << "inserting: " << tempNode.title << ", " << tempNode.likes << ", " << tempNode.views << endl;
       tree.insertNode(tempNode.title, tempNode.likes, tempNode.views);     
       count ++;
-      if(infile.eof())  //checks eof flag before entering final while loop (prevents inserting last item x2)
-         break;
+      //cout << "eof status: " << infile.eof() << endl;
     }
-   cout << count << " items inserted." << endl;
+
+   //cout << "\n" << count << "/10 items inserted." << endl;
    infile.close();
    return count;
 }
