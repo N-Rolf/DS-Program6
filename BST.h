@@ -1,3 +1,12 @@
+/********************************************************************
+***  NAME       :Neil Rolf                                        ***
+***  CLASS      :CSc 300                                          ***
+***  ASSIGNMENT :Program 6                                        ***
+***  DUE DATE   :03/11/2022                                       ***
+***  INSTRUCTOR :Kurtenbach                                       ***
+*********************************************************************
+***  DESCRIPTION :Binary Search Tree for handling video data      ***
+********************************************************************/
 #ifndef BST_H
 #define BST_H
 #include <string>
@@ -11,37 +20,29 @@ private:
       SElement title;
       int likes;         
       int views;
-      TreeNode *left;    // Pointer to left child node
-      TreeNode *right;   // Pointer to right child node
+      TreeNode *left;    
+      TreeNode *right;   
    };
 
-   TreeNode *root;       // Pointer to the root node
+   TreeNode *root;       
    int likeTotal = 0;
    int viewTotal = 0;
-   // Private member functions
+
    void insert(TreeNode *&, TreeNode *&);
    void destroySubTree(TreeNode *);
-   //void deleteNode(int, TreeNode *&);
-   //void makeDeletion(TreeNode *&);
    void displayInOrder(TreeNode *) const;
-   //void displayPreOrder(TreeNode *) const;
-   //void displayPostOrder(TreeNode *) const;
    void displayRoot(TreeNode *);
    void displayTotal(TreeNode *);
    
 public:
-   // Constructor
    BST()
       { root = nullptr; }
-      
-   // Destructor
    ~BST()
       { destroySubTree(root); }
       
-   // Binary tree operations
+
    void insertNode(SElement, int, int);
-   //bool searchNode(int);
-   //void remove(int);
+
    void displayRoot()
       { displayRoot(root);}
 
@@ -52,11 +53,6 @@ public:
 
    void displayInOrder() const
       {  displayInOrder(root); }
-      
-   // void displayPreOrder() const
-   //    {  displayPreOrder(root); }
-      
-   // void displayPostOrder() const
-   //    {  displayPostOrder(root); }
+
 };
 #endif

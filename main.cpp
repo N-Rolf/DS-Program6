@@ -1,12 +1,11 @@
 /********************************************************************
 ***  NAME       :Neil Rolf                                        ***
 ***  CLASS      :CSc 300                                          ***
-***  ASSIGNMENT :Program 2                                        ***
-***  DUE DATE   :02/04/2022                                       ***
+***  ASSIGNMENT :Program 6                                        ***
+***  DUE DATE   :03/11/2022                                       ***
 ***  INSTRUCTOR :Kurtenbach                                       ***
 *********************************************************************
-***  DESCRIPTION :Stack ADT implemented with linked list giving   ***
-***               user access to grocery item purchase history.   ***
+***  DESCRIPTION :Binary Search Tree for handling video data      ***
 ********************************************************************/
 #include <iostream>
 #include <fstream>
@@ -24,16 +23,17 @@ struct Node
         int views;
     };
 
-int ingestData();
+void ingestData();
 BST tree;
 
 int main()
 {
     int catchLikes = 0, catchViews = 0;
-    int *likePtr = &catchLikes;
+    int *likePtr = &catchLikes;             //probably better way to do this
     int *viewPtr = &catchViews;
+
     //initial data ingest and user file name prompt
-    int itemCount = ingestData();
+    ingestData();
    
     //USER MENU
     int selection = 0;
@@ -60,8 +60,8 @@ int main()
                 }
             case PRINT_TOTAL:{
                tree.displayTotal(likePtr, viewPtr);
-               cout << "\nTotal Likes: " << catchLikes << endl; //27349
-               cout << "Total Views: " << catchViews << endl; //9773
+               cout << "\nTotal Likes: " << catchLikes << endl; 
+               cout << "Total Views: " << catchViews << endl;
                break;
             }
             case EXIT:{
@@ -77,12 +77,13 @@ int main()
 /********************************************************************
 *** FUNCTION ingestData                                           ***
 *********************************************************************
-*** DESCRIPTION : displays all nodes in the stack                 ***
+*** DESCRIPTION : reads data from file into temp struct, then     ***
+***               calls insert function                           ***
 *** INPUT ARGS : none                                             ***
 *** OUTPUT ARGS : none                                            ***
 *** RETURN : number of items pushed to stack                      ***
 ********************************************************************/
-int ingestData()
+void ingestData()
 {
    string userFile = "videos.txt";
 
@@ -101,18 +102,16 @@ int ingestData()
 
     while(infile >> tempNode.likes)
     {
-      //infile >> tempNode.likes;
       infile >> tempNode.views;
-      infile.ignore();
+      infile.ignore();  //ignores tab space before title
       getline(infile, tempNode.title);
 
       //cout << "inserting: " << tempNode.title << ", " << tempNode.likes << ", " << tempNode.views << endl;
       tree.insertNode(tempNode.title, tempNode.likes, tempNode.views);     
       count ++;
-      //cout << "eof status: " << infile.eof() << endl;
     }
 
-   //cout << "\n" << count << "/10 items inserted." << endl;
+   //cout << "\n" << count << " items inserted." << endl;
    infile.close();
-   return count;
+   return;
 }
